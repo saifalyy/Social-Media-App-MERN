@@ -1,5 +1,5 @@
-import React from 'react'
-import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import React, { useState } from 'react'
+import { Card, CardActions, CardContent, CardMedia, Button, Typography, Box, Modal } from '@material-ui/core';
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt"
 import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined'
 import DeleteIcon from "@material-ui/icons/Delete"
@@ -10,9 +10,12 @@ import {useDispatch} from "react-redux";
 import { deletePost, likePost } from '../../../actions/posts';
 
 function Post({post, setCurrentId}) {
+  const [open, setOpen] = useState(false)
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('profile'))
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
 
   const Likes = () => {
     if (post.likes.length > 0) {
@@ -30,6 +33,7 @@ function Post({post, setCurrentId}) {
   return (
     <>
     <Card className={classes.card}>
+      <div onClick={handleOpen} style={{cursor: 'pointer'}}>
       <CardMedia className={classes.media} image={post.selectedFile} title={post.title}>
       </CardMedia>
       <div className={classes.overlay}>
@@ -48,6 +52,7 @@ function Post({post, setCurrentId}) {
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">{post.message}</Typography>
       </CardContent>
+      </div>
       <CardActions className={classes.cardActions}>
         <Button size="small" color="primary" disabled={!user?.result} onClick={() =>{dispatch(likePost(post._id))}}>
           <Likes/>
@@ -57,6 +62,31 @@ function Post({post, setCurrentId}) {
         ) : (<></>)}
       </CardActions>
     </Card>
+
+    <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className={classes.modalStyle}>
+          <Typography variant="h4" align='center'>{post.title}</Typography>
+          <hr style={{"width" : "100%"}}></hr>
+          <div className={classes.modalImage}>
+            <img src={post.selectedFile}></img>
+          </div>
+          <hr></hr>
+          <div className={classes.twoBox}>
+          <div className={classes.postDetails}>
+            <h4>Posted By: {post.name}</h4>
+            <p>Post Description: {post.message}</p>
+          </div>
+          <div className={classes.commentSection}>
+            <Typography variant='h3'>Comments</Typography>
+          </div>
+          </div>
+        </Box>
+      </Modal>
     </>
   )
 }

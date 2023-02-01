@@ -49,4 +49,38 @@ export default makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
   },
+
+  modalStyle: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: 'white',
+    boxShadow: "24px 24px 10px black",
+    padding: '4px 2%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'space-between',
+    flexDirection: 'column',
+    borderRadius: "30px"
+  },
+
+  modalImage: {
+    width: '100%'
+  },
+
+  postDetails: {
+    borderRight: '1px solid black',
+    flex: "50%"
+  },
+
+  twoBox: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+
+  commentSection: {
+    flex: '50%'
+  }
 });
